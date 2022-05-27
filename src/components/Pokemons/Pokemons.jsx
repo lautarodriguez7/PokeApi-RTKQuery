@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useGetPokemonsQuery } from "../../redux/apis/pokeApi";
 import { PokemonsID } from "./PokemonsID";
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import { MdCatchingPokemon } from "react-icons/md";
 
 export default function Pokemons() {
   const [offset, setOffset] = useState(0);
@@ -18,28 +20,40 @@ export default function Pokemons() {
   };
   return (
     <div>
-      <h1>Pokemones</h1>
-
+      <h1>
+        {" "}
+        <MdCatchingPokemon color="red" fontSize="1.5em" />
+        Pokedex
+      </h1>
       {isLoading
         ? "Loading..."
         : poke.map((pokemon) => (
-            <div key={pokemon.name}>
-              <button
-                onClick={() => setPokemon((prev) => [...prev, pokemon.name])}
-              >
-                {pokemon.name}
-              </button>
+            <div style={{ margin: 1 }} key={pokemon.name}>
+              <ul>
+                <button
+                  className="button-pokemon"
+                  onClick={() => setPokemon((prev) => [...prev, pokemon.name])}
+                >
+                  {pokemon.name.toUpperCase()}
+                </button>
+              </ul>
             </div>
           ))}
 
-      <button onClick={previous}>Atras</button>
-      <button onClick={next}>Next</button>
-      {/* <PokemonsID /> */}
+      <button className="arrow" onClick={previous}>
+        <FaArrowLeft />
+      </button>
+      <button className="arrow" onClick={next}>
+        <FaArrowRight />
+      </button>
+      <hr />
 
-      <div>Add pokemons</div>
-      {pokemon.map((name, index) => (
-        <PokemonsID key={index} name={name} />
-      ))}
+      <h1>Pokemons Catched</h1>
+      <div className="list-poke">
+        {pokemon.map((name, index) => (
+          <PokemonsID key={index} name={name} />
+        ))}
+      </div>
     </div>
   );
 }
